@@ -1,12 +1,10 @@
 {
   "name": "CryptoApp",
-  "displayName": "CryptoApp",
+  "displayName": "Crypto Price",
   "expo": {
     "name": "CryptoApp",
     "slug": "CryptoApp",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
