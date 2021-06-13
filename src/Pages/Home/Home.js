@@ -13,62 +13,38 @@ import {
 } from "react-native";
 import ContainerForCrypto from "../../Components/ContainerForCrypto";
 import ClearIcon from "react-native-vector-icons/Entypo";
+import SearchIcon from "react-native-vector-icons/AntDesign";
+import { fetchCryptoData } from "../../Redux/Actions/FetchCryptoData";
+import { connect, useDispatch } from "react-redux";
 const { width, height } = Dimensions.get("window");
-const Home = () => {
+const Home = ({ cryptoData, isLoading }) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedValue, setSelectedValue] = useState("inr");
-  const [loader, setLoader] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const getCryptoPrice = async (val) => {
-    setLoader(true);
-    await fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${val}&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "datatatat");
-        setData(data);
-        setLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoader(false);
-      });
+  const dispatch = useDispatch();
+  const getCryptoPrice = (val) => {
+    dispatch(fetchCryptoData(val));
   };
 
   const filterData = (text) => {
     console.log(text);
-    const newData = data.filter((item) => {
-      const itemData = item.symbol.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-
-    setData(newData);
-  };
-
-  const refreshData = async () => {
-    setLoading(true);
-    await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false",
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        console.log(data);
-        setData(data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
+    if (text) {
+      const newData = cryptoData.filter((item) => {
+        const itemData = item.symbol.toUpperCase();
+        const textData = text.toUpperCase();
+        if (itemData.includes(textData)) {
+          return item;
+        }
       });
+      setData(newData);
+      console.log(newData.length, "new");
+    } else {
+      setData(cryptoData);
+    }
+  };
+  const refreshData = async () => {
+    setSelectedValue("inr");
+    dispatch(fetchCryptoData("inr", false));
   };
 
   const renderItem = ({ item }) => {
@@ -85,6 +61,11 @@ const Home = () => {
     );
   };
   useEffect(() => {
+    if (cryptoData) {
+      setData(cryptoData);
+    }
+  }, [cryptoData]);
+  useEffect(() => {
     getCryptoPrice("inr");
   }, []);
   return (
@@ -98,7 +79,7 @@ const Home = () => {
         alignItems: "flex-start",
       }}
     >
-      {!loader ? (
+      {!isLoading ? (
         <View>
           <View
             style={{
@@ -106,75 +87,99 @@ const Home = () => {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              height: 100,
+              marginBottom: 10,
             }}
           >
             <View
               style={{
-                flexDirection: "row",
-                position: "relative",
-                height: 40,
                 width: width * 0.6,
+                borderRadius: 15,
+                flexDirection: "row",
+                borderColor: "black",
+                borderWidth: 0.2,
+                justifyContent: "center",
+                alignItems: "center",
+                height: 40,
+                elevation: 1,
+                position: "relative",
               }}
             >
-              <TextInput
-                placeholder="Search"
+              <SearchIcon
+                name="search1"
+                size={25}
+                color="#949494"
                 style={{
-                  borderColor: "black",
-                  borderWidth: 0.5,
-                  height: 40,
-                  width: width * 0.6,
-                  borderRadius: 15,
-                  marginBottom: 10,
-                }}
-                onChangeText={(text) => {
-                  filterData(text);
-                  setSearchValue(text);
+                  marginLeft: 30,
                 }}
               />
-              {searchValue ? (
-                <ClearIcon
-                  name="cross"
-                  size={20}
-                  color="black"
+              <View
+                style={{
+                  flexDirection: "row",
+                  height: 40,
+                  width: width * 0.6,
+                }}
+              >
+                <TextInput
+                  placeholder={"Search"}
                   style={{
-                    position: "absolute",
-                    alignSelf: "center",
-                    right: 0,
-                    marginRight: 10,
+                    height: 40,
+                    width: width * 0.6,
                   }}
-                  onPress={() => {
-                    setSearchValue("");
-                    getCryptoPrice("inr");
+                  onChangeText={(text) => {
+                    filterData(text);
+                    setSearchValue(text);
                   }}
                 />
-              ) : null}
+                {searchValue ? (
+                  <ClearIcon
+                    name="circle-with-cross"
+                    size={22}
+                    color="grey"
+                    style={{
+                      position: "absolute",
+                      alignSelf: "center",
+                      right: 25,
+                      marginRight: 10,
+                    }}
+                    onPress={() => {
+                      setSearchValue("");
+                      getCryptoPrice("inr");
+                    }}
+                  />
+                ) : null}
+              </View>
             </View>
 
-            <Picker
-              selectedValue={selectedValue}
+            <View
               style={{
-                height: 50,
-                width: 150,
+                height: 40,
+                width: 100,
                 borderColor: "grey",
                 borderWidth: 0.4,
                 elevation: 0.5,
-              }}
-              onValueChange={(itemValue, itemIndex) => {
-                getCryptoPrice(itemValue);
-                setSelectedValue(itemValue);
+                marginRight: 30,
+                borderRadius: 10,
+                justifyContent: "center",
               }}
             >
-              <Picker.Item label="INR" value="inr" />
-              <Picker.Item label="USD" value="usd" />
-            </Picker>
+              <Picker
+                selectedValue={selectedValue}
+                onValueChange={(itemValue, itemIndex) => {
+                  dispatch(fetchCryptoData(itemValue));
+                  setSelectedValue(itemValue);
+                }}
+              >
+                <Picker.Item label="INR" value="inr" />
+                <Picker.Item label="USD" value="usd" />
+              </Picker>
+            </View>
           </View>
           <FlatList
             data={data}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
             onRefresh={refreshData}
-            refreshing={loading}
+            refreshing={isLoading}
           />
         </View>
       ) : (
@@ -194,6 +199,12 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    cryptoData: state.fetchCryptoDataReducer.data,
+    isLoading: state.fetchCryptoDataReducer.isLoading,
+  };
+};
+export default connect(mapStateToProps)(Home);
 
 const styles = StyleSheet.create({});

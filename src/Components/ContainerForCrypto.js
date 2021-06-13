@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Pressable,
+} from "react-native";
 import "../../assets/download.png";
 const { width, height } = Dimensions.get("window");
 const ContainerForCrypto = ({
@@ -12,7 +19,10 @@ const ContainerForCrypto = ({
   moneySymbol,
 }) => {
   return (
-    <View
+    <Pressable
+      android_ripple={{
+        color: "#dedede",
+      }}
       style={[
         styles.container,
         {
@@ -101,7 +111,7 @@ const ContainerForCrypto = ({
               }}
             >
               {""}
-              {oneDay}
+              {oneDay}%
             </Text>
           </Text>
           <Text
@@ -126,7 +136,7 @@ const ContainerForCrypto = ({
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
