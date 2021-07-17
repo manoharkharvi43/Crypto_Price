@@ -37,7 +37,6 @@ const Home = ({ cryptoData, isLoading }) => {
         }
       });
       setData(newData);
-      console.log(newData.length, "new");
     } else {
       setData(cryptoData);
     }

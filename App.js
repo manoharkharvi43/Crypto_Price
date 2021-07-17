@@ -4,12 +4,16 @@ import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import Home from "./src/Pages/Home/Home";
 import { store } from "./src/Redux/Store/store";
+import { NavigationContainer } from "@react-navigation/native";
+import Root from "./src/Routes";
 
 export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <Home />
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
       </View>
     </Provider>
   );
