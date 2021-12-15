@@ -155,8 +155,8 @@ const Home = ({ cryptoData, isLoading }) => {
               style={{
                 height: 40,
                 width: 100,
-                // borderColor: "grey",
-                // borderWidth: 0.4,
+                borderColor: "grey",
+                borderWidth: 0.1,
                 elevation: 0.5,
                 marginRight: 30,
                 borderRadius: 10,
