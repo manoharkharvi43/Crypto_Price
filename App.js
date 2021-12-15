@@ -11,9 +11,10 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <NavigationContainer>
+        <Root />
+        {/* <NavigationContainer>
           <Root />
-        </NavigationContainer>
+        </NavigationContainer> */}
       </View>
     </Provider>
   );

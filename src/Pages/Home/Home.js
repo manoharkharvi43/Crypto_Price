@@ -60,6 +60,7 @@ const Home = ({ cryptoData, isLoading }) => {
     );
   };
   useEffect(() => {
+    console.log(cryptoData, "cryptoDatacryptoData=>");
     if (cryptoData) {
       setData(cryptoData);
     }
@@ -67,6 +68,7 @@ const Home = ({ cryptoData, isLoading }) => {
   useEffect(() => {
     getCryptoPrice("inr");
   }, []);
+
   return (
     <View
       style={{
@@ -92,10 +94,10 @@ const Home = ({ cryptoData, isLoading }) => {
             <View
               style={{
                 width: width * 0.6,
-                borderRadius: 15,
+                borderRadius: 7,
                 flexDirection: "row",
-                borderColor: "black",
-                borderWidth: 0.2,
+                // borderColor: "black",
+                // borderWidth: 0.2,
                 justifyContent: "center",
                 alignItems: "center",
                 height: 40,
@@ -103,14 +105,14 @@ const Home = ({ cryptoData, isLoading }) => {
                 position: "relative",
               }}
             >
-              <SearchIcon
+              {/* <SearchIcon
                 name="search1"
                 size={25}
                 color="#949494"
                 style={{
                   marginLeft: 30,
                 }}
-              />
+              /> */}
               <View
                 style={{
                   flexDirection: "row",
@@ -137,7 +139,7 @@ const Home = ({ cryptoData, isLoading }) => {
                     style={{
                       position: "absolute",
                       alignSelf: "center",
-                      right: 25,
+                      right: 0,
                       marginRight: 10,
                     }}
                     onPress={() => {
@@ -153,8 +155,8 @@ const Home = ({ cryptoData, isLoading }) => {
               style={{
                 height: 40,
                 width: 100,
-                borderColor: "grey",
-                borderWidth: 0.4,
+                // borderColor: "grey",
+                // borderWidth: 0.4,
                 elevation: 0.5,
                 marginRight: 30,
                 borderRadius: 10,

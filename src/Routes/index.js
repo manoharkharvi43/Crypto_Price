@@ -7,9 +7,11 @@ const Stack = createStackNavigator();
 
 const Root = () => {
   return (
-    <Stack.Navigator initialRouteName="home">
-      <Stack.Screen name="home" component={Home}></Stack.Screen>
-    </Stack.Navigator>
+    // <Stack.Navigator initialRouteName="home">
+    //   <Stack.Screen name="home" component={Home}></Stack.Screen>
+    // </Stack.Navigator>
+
+    <Home />
   );
 };
 

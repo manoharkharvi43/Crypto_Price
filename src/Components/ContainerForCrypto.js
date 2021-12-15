@@ -38,8 +38,11 @@ const ContainerForCrypto = ({
         style={[
           styles.image,
           {
-            width: width * 0.15,
-            height: height * 0.09,
+            // width: width * 0.15,
+            // height: height * 0.09,
+            width: 50,
+            height: 50,
+            resizeMode: "contain",
           },
         ]}
       />
@@ -154,7 +157,8 @@ const styles = StyleSheet.create({
     borderColor: "#bababa",
     borderWidth: 0.2,
     marginBottom: 20,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ffffff",
+    elevation: 0.2,
   },
   image: {
     resizeMode: "cover",
